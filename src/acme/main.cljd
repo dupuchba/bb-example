@@ -1,0 +1,17 @@
+(ns acme.main
+  (:require
+   [cljd.flutter.alpha2 :as f]
+   ["package:flutter/material.dart" :as m]))
+
+(def ^m/TextStyle text-style (m/TextStyle .fontWeight m/FontWeight.w700 .fontSize 32))
+
+(defn main []
+  (f/run
+    (m/MaterialApp .title "Baibhav Demo")
+    .home
+    (m/Scaffold .appBar (m/AppBar .title (m/Text "Baibhav Demo")))
+    .body
+    (m/Column .mainAxisAlignment m/MainAxisAlignment.center .crossAxisAlignment m/CrossAxisAlignment.stretch)
+    .children
+    [(m/Text "Hey" .textAlign m/TextAlign.center .style (.apply text-style .color m/Colors.green.shade200))
+     (m/Text "You" .textAlign m/TextAlign.center .style (.apply text-style .color m/Colors.green.shade200))]))
