@@ -5,11 +5,38 @@
 
 (def ^m/TextStyle text-style (m/TextStyle .fontWeight m/FontWeight.w700 .fontSize 32))
 
+(def ^m/Widget bb-modal
+  (f/build
+    :get {{{:flds [bottom]} .-viewInsets} m/MediaQuery}
+    (m/Padding .padding (m/EdgeInsets.only .bottom bottom))
+    :managed [controller (m/TextEditingController .text "0.00")]
+    (m/Column .mainAxisSize m/MainAxisSize.min)
+    .children
+    [(m/TextField
+       .style text-style
+       .onChanged (fn [v] nil)
+       .controller controller
+       .textAlign m/TextAlign.center
+       .autofocus true)
+     (f/widget
+       (m/TextButton .onPressed (fn [] nil))
+       (m/Text "Push the Button" .style text-style))]))
+
 (defn main []
   (f/run
     (m/MaterialApp .title "Baibhav Demo")
     .home
-    (m/Scaffold .appBar (m/AppBar .title (m/Text "Baibhav Demo")))
+    :context ctx
+    (m/Scaffold .appBar (m/AppBar .title (m/Text "Baibhav Demo"))
+      .floatingActionButton (m/IconButton
+                              .icon (m/Icon m/Icons.add_circle_outline)
+                              .onPressed
+                              (fn []
+                                (m/showModalBottomSheet
+                                  .context ctx
+                                  .isScrollControlled true
+                                  .builder bb-modal)
+                                nil)))
     .body
     (m/Column .mainAxisAlignment m/MainAxisAlignment.center .crossAxisAlignment m/CrossAxisAlignment.stretch)
     .children
